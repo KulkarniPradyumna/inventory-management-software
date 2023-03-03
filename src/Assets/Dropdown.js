@@ -1,7 +1,11 @@
-import React, { useState } from "react";
-import { settingInitialDb } from "../Utilities";
+import React, { useEffect, useState } from "react";
+import { settingInitialDb, readItems } from "../Utilities";
+import { initialDb } from "../Utilities";
 
 const Dropdown = () => {
+  const [readItem, setreadItem] = useState(readItems());
+  console.log(readItem);
+
   return (
     <>
       <div className="container">
@@ -15,8 +19,10 @@ const Dropdown = () => {
                 <th scope="col">Current User</th>
                 <th scope="col">Previous Users</th>
                 <th scope="col">Handle</th>
+                <th scope="col"></th>
               </tr>
             </thead>
+
             <tbody>
               <tr>
                 <th scope="row">1</th>
@@ -24,6 +30,9 @@ const Dropdown = () => {
                 <td>Otto</td>
                 <td>@mdo</td>
                 <td>@mdo</td>
+                <td>
+                  <button className="btn btn-primary">Add Comment</button>
+                </td>
               </tr>
               <tr>
                 <th scope="row">2</th>
@@ -31,12 +40,46 @@ const Dropdown = () => {
                 <td>Thornton</td>
                 <td>@fat</td>
                 <td>@mdo</td>
+                <td>
+                  <button className="btn btn-primary">Add Comment</button>
+                </td>
+              </tr>
+
+              <tr>
+                <th scope="row">2</th>
+                <td>Jacob</td>
+                <td>Thornton</td>
+                <td>@fat</td>
+                <td>@mdo</td>
+                <td>
+                  <button className="btn btn-primary">Add Comment</button>
+                </td>
               </tr>
               <tr>
-                <th scope="row">3</th>
-                <td colSpan="2">Larry the Bird</td>
-                <td>@twitter</td>
-                <td>@twitter</td>
+                <th scope="row">2</th>
+                <td>
+                  <form>
+                    <input type="text" placeholder="Enter a comment" />
+                  </form>
+                </td>
+                <td>
+                  <form>
+                    <input type="text" placeholder="Enter a comment" />
+                  </form>
+                </td>
+                <td>
+                  <form>
+                    <input type="text" placeholder="Enter a comment" />
+                  </form>
+                </td>
+                <td>
+                  <form>
+                    <input type="text" placeholder="Enter a comment" />
+                  </form>
+                </td>
+                <td>
+                  <button className="btn btn-primary">Add Comment</button>
+                </td>
               </tr>
             </tbody>
           </table>

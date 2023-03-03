@@ -2,38 +2,26 @@ const initialDb = [
   {
     value: "Apple",
     id: "1",
-    data: "This is apple laptop ",
-    textAreaValue: "Apple Laptop",
+    currentUser: "Pradyumna ",
+    previousUsers: "abc",
   },
   {
     value: "Lenovo",
     id: "2",
-    data: "This is lenovo laptop ",
-    textAreaValue: "Lenovo Laptop",
+    currentUser: "Pradyumna ",
+    previousUsers: "abc, xyz",
   },
   {
     value: "Dell",
     id: "3",
-    data: "This is dell laptop ",
-    textAreaValue: "Dell Laptop",
+    currentUser: "Pradyumna ",
+    previousUsers: "abc, xyz",
   },
   {
     value: "HP",
     id: "4",
-    data: "This is HP laptop ",
-    textAreaValue: "HP Laptop",
-  },
-  {
-    value: "Toshiba",
-    id: "5",
-    data: "This is toshiba laptop ",
-    textAreaValue: "Toshiba Laptop",
-  },
-  {
-    value: "Compac",
-    id: "6",
-    data: "This is compac laptop ",
-    textAreaValue: "Compac Laptop This was used by me",
+    currentUser: "Pradyumna",
+    previousUsers: "abc, xyz",
   },
 ];
 
@@ -49,7 +37,7 @@ const addItem = (item) => {
 };
 
 const readItems = () => {
-  const items = JSON.parse(localStorage.getItem("initalDbString")) || [];
+  const items = JSON.parse(localStorage.getItem("dbKey"));
   return items;
 };
 
