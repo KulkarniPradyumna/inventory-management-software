@@ -1,27 +1,38 @@
 const initialDb = [
   {
-    value: "Apple",
     id: "1",
+    laptop: "Apple",
     currentUser: "Pradyumna ",
     previousUsers: "abc",
+    handle: "xyz@gmail.com",
   },
   {
-    value: "Lenovo",
     id: "2",
+    laptop: "Lenovo",
     currentUser: "Pradyumna ",
     previousUsers: "abc, xyz",
+    handle: "xyz@gmail.com",
   },
   {
-    value: "Dell",
     id: "3",
+    laptop: "Dell",
     currentUser: "Pradyumna ",
     previousUsers: "abc, xyz",
+    handle: "xyz@gmail.com",
   },
   {
-    value: "HP",
     id: "4",
+    laptop: "HP",
     currentUser: "Pradyumna",
     previousUsers: "abc, xyz",
+    handle: "xyz@gmail.com",
+  },
+  {
+    id: "5",
+    laptop: "HP",
+    currentUser: "Pradyumna",
+    previousUsers: "abc, xyz",
+    handle: "xyz@gmail.com",
   },
 ];
 
@@ -31,9 +42,10 @@ const settingInitialDb = () => {
 };
 
 const addItem = (item) => {
-  const items = JSON.parse(localStorage.getItem("initalDbString")) || [];
+  let items = JSON.parse(localStorage.getItem("dbKey"));
   items.push(item);
-  localStorage.setItem("initalDbString", JSON.stringify(items));
+  console.log(items);
+  localStorage.setItem("dbKey", JSON.stringify(items));
 };
 
 const readItems = () => {
@@ -42,15 +54,15 @@ const readItems = () => {
 };
 
 const updateItem = (index, item) => {
-  const items = JSON.parse(localStorage.getItem("initalDbString")) || [];
+  let items = JSON.parse(localStorage.getItem("dbKey")) || [];
   items[index] = item;
   localStorage.setItem("initalDbString", JSON.stringify(items));
 };
 
 const deleteItem = (index) => {
-  const items = JSON.parse(localStorage.getItem("initalDbString")) || [];
+  let items = JSON.parse(localStorage.getItem("dbKey"));
   items.splice(index, 1);
-  localStorage.setItem("initalDbString", JSON.stringify(items));
+  localStorage.setItem("dbKey", JSON.stringify(items));
 };
 
 export { addItem, readItems, updateItem, deleteItem, settingInitialDb };

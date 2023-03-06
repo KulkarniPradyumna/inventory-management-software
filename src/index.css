@@ -74,53 +74,9 @@ code {
   width: 50%;
 }
 
-.my-dropdown {
-  background: #eee;
-  border-radius: 0.5rem;
-  margin-left: 1rem;
-  padding: 0.2rem;
+.table {
+  border-radius: 1rem;
 }
-
-.text-area {
-  background: #eee;
-  border-radius: 0.5rem;
-  margin: 1rem;
-}
-
-.add-laptop {
-  margin-left: 1rem;
-  background: lightblue;
-  border-radius: 0.5rem;
-}
-
-.list-key {
-  margin-top: 0.5rem;
-  margin-right: 1rem;
-  background: #eee;
-  border-radius: 0.5rem;
-  margin-left: 1rem;
-  width: 50%;
-  /* margin-right: 50vh; */
-}
-
-.text-area {
-  margin-left: 1rem;
-  margin-right: 50vh;
-  box-sizing: border-box;
-  background: #eee;
-  border-radius: 0.5rem;
-  width: 50%;
-  height: 50%;
-  margin-right: 1rem;
-  overflow-y: scroll;
-}
-
-.button {
-  margin: 1rem;
-  background: darkcyan;
-  border-radius: 0.2rem;
-}
-
 /* @media (max-width: 768px) {
   .textarea {
     width: 50%;
