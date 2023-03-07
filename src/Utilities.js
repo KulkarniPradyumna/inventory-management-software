@@ -54,9 +54,10 @@ const readItems = () => {
 };
 
 const updateItem = (index, item) => {
-  let items = JSON.parse(localStorage.getItem("dbKey")) || [];
+  let items = JSON.parse(localStorage.getItem("dbKey"));
   items[index] = item;
-  localStorage.setItem("initalDbString", JSON.stringify(items));
+  console.log(item);
+  localStorage.setItem("dbKey", JSON.stringify(items));
 };
 
 const deleteItem = (index) => {

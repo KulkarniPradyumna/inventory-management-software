@@ -6,6 +6,7 @@ import Assets from "./Header/Assets";
 import Home from "./Header/Home";
 import Employees from "./Header/Employees";
 import { settingInitialDb } from "./Utilities";
+// import Login from "./Header/Login";
 
 function App() {
   settingInitialDb();
@@ -18,6 +19,7 @@ function App() {
         <Route exact path="/home" element={<Home />} />
         <Route path="/assets" element={<Assets />} />
         <Route path="/employees" element={<Employees />} />
+        {/* <Route path="/login/*" element={<Login />} /> */}
       </Routes>
     </Router>
   );

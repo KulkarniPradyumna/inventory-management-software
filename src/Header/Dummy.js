@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import {
   settingInitialDb,
   readItems,
@@ -11,51 +11,52 @@ const Dropdown = () => {
   const [readItem, setreadItem] = useState(readItems());
   // console.log(readItem);
 
-  const [id, setId] = useState("");
-  const [laptop, setLaptop] = useState("");
-  const [currentUser, setCurrentUser] = useState("");
-  const [previousUsers, setpreviousUsers] = useState("");
-  const [handle, sethandle] = useState("");
   const [editingIndex, setEditingIndex] = useState(null);
 
-  const handleSave = (e) => {
-    e.preventDefault();
-    if (editingIndex !== null) {
-      const updatedItem = {
-        id: id,
-        laptop: laptop,
-        currentUser: currentUser,
-        previousUsers: previousUsers,
-        handle: handle,
-      };
-      updateItem(editingIndex, updatedItem);
-      setEditingIndex(null);
-    } else {
-      addItem({ id, laptop, currentUser, previousUsers, handle });
-      setreadItem(readItems());
-    }
+  let inputRef = useRef(null);
+
+  const handleRef = () => {
+    inputRef.current.value = readItem(id);
   };
 
-  const handleEditItem = (index) => {
-    const item = readItem[index];
-    if (editingIndex !== null) {
-      const updatedItem = {
-        id: id,
-        laptop: laptop,
-        currentUser: currentUser,
-        previousUsers: previousUsers,
-        handle: handle,
-      };
-      updateItem(editingIndex, updatedItem);
-    }
-    console.log(editingIndex);
-    setEditingIndex(index);
-    setId(item.id);
-    setLaptop(item.laptop);
-    setCurrentUser(item.currentUser);
-    setpreviousUsers(item.previousUsers);
-    sethandle(item.handle);
-  };
+  //   const handleSave = (e) => {
+  //     e.preventDefault();
+  //     if (editingIndex !== null) {
+  //       const updatedItem = {
+  //         id: id,
+  //         laptop: laptop,
+  //         currentUser: currentUser,
+  //         previousUsers: previousUsers,
+  //         handle: handle,
+  //       };
+  //       updateItem(editingIndex, updatedItem);
+  //       setEditingIndex(null);
+  //     } else {
+  //       addItem({ id, laptop, currentUser, previousUsers, handle });
+  //       setreadItem(readItems());
+  //     }
+  //   };
+
+  //   const handleEditItem = (index) => {
+  //     const item = readItem[index];
+  //     if (editingIndex !== null) {
+  //       const updatedItem = {
+  //         id: id,
+  //         laptop: laptop,
+  //         currentUser: currentUser,
+  //         previousUsers: previousUsers,
+  //         handle: handle,
+  //       };
+  //       updateItem(editingIndex, updatedItem);
+  //     }
+  //     console.log(editingIndex);
+  //     setEditingIndex(index);
+  //     setId(item.id);
+  //     setLaptop(item.laptop);
+  //     setCurrentUser(item.currentUser);
+  //     setpreviousUsers(item.previousUsers);
+  //     sethandle(item.handle);
+  //   };
   return (
     <>
       <div className="container">
@@ -89,53 +90,53 @@ const Dropdown = () => {
                     >
                       Delete
                     </button>
-                    <button onClick={() => handleEditItem(index)}>Edit</button>
+                    <button onClick={handleRef}>Edit</button>
                   </td>
                 </tr>
               ))}
               <tr>
                 <td>
-                  <form onSubmit={handleSave}>
+                  <form>
                     <input
                       type="number"
                       value={id}
-                      onChange={(e) => setId(e.target.value)}
+                      onChange={(e) => handleRef(e.target.value)}
                     />
                   </form>
                 </td>
                 <td>
-                  <form onSubmit={handleSave}>
+                  <form>
                     <input
                       type="text"
                       value={laptop}
-                      onChange={(e) => setLaptop(e.target.value)}
+                      onChange={(e) => handleRef(e.target.value)}
                     />
                   </form>
                 </td>
                 <td>
-                  <form onSubmit={handleSave}>
+                  <form>
                     <input
                       type="text"
                       value={currentUser}
-                      onChange={(e) => setCurrentUser(e.target.value)}
+                      onChange={(e) => handleRef(e.target.value)}
                     />
                   </form>
                 </td>
                 <td>
-                  <form onSubmit={handleSave}>
+                  <form>
                     <input
                       type="text"
                       value={previousUsers}
-                      onChange={(e) => setpreviousUsers(e.target.value)}
+                      onChange={(e) => handleRef(e.target.value)}
                     />
                   </form>
                 </td>
                 <td>
-                  <form onSubmit={handleSave}>
+                  <form>
                     <input
                       type="text"
                       value={handle}
-                      onChange={(e) => sethandle(e.target.value)}
+                      onChange={(e) => handleRef(e.target.value)}
                     />
                   </form>
                 </td>
