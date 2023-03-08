@@ -16,7 +16,7 @@ const Dropdown = () => {
   let inputRef = useRef(null);
 
   const handleRef = () => {
-    inputRef.current.value = readItem(id);
+    inputRef.current.value = readItems(id);
   };
 
   //   const handleSave = (e) => {
@@ -90,7 +90,7 @@ const Dropdown = () => {
                     >
                       Delete
                     </button>
-                    <button onClick={handleRef}>Edit</button>
+                    <button onClick={handleRef(id)}>Edit</button>
                   </td>
                 </tr>
               ))}
@@ -99,7 +99,7 @@ const Dropdown = () => {
                   <form>
                     <input
                       type="number"
-                      value={id}
+                      value={inputRef.id}
                       onChange={(e) => handleRef(e.target.value)}
                     />
                   </form>
@@ -108,7 +108,7 @@ const Dropdown = () => {
                   <form>
                     <input
                       type="text"
-                      value={laptop}
+                      value={inputRef.laptop}
                       onChange={(e) => handleRef(e.target.value)}
                     />
                   </form>
@@ -117,7 +117,7 @@ const Dropdown = () => {
                   <form>
                     <input
                       type="text"
-                      value={currentUser}
+                      value={inputRef.currentUser}
                       onChange={(e) => handleRef(e.target.value)}
                     />
                   </form>
@@ -126,7 +126,7 @@ const Dropdown = () => {
                   <form>
                     <input
                       type="text"
-                      value={previousUsers}
+                      value={inputRef.previousUsers}
                       onChange={(e) => handleRef(e.target.value)}
                     />
                   </form>
@@ -135,7 +135,7 @@ const Dropdown = () => {
                   <form>
                     <input
                       type="text"
-                      value={handle}
+                      value={inputRef.handle}
                       onChange={(e) => handleRef(e.target.value)}
                     />
                   </form>

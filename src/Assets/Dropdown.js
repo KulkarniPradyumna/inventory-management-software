@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import {
   settingInitialDb,
   readItems,
@@ -9,59 +9,69 @@ import {
 
 const Dropdown = () => {
   const [readItem, setreadItem] = useState(readItems());
-  // console.log(readItem);
 
-  const [id, setId] = useState("");
-  const [laptop, setLaptop] = useState("");
-  const [currentUser, setCurrentUser] = useState("");
-  const [previousUsers, setpreviousUsers] = useState("");
-  const [handle, sethandle] = useState("");
-  const [editingIndex, setEditingIndex] = useState(null);
+  const inputRef = useRef({
+    id: "",
+    laptop: "",
+    currentUser: "",
+    previousUsers: "",
+    handle: "",
+  });
 
-  const handleSave = (e) => {
-    e.preventDefault();
-    if (editingIndex !== null) {
-      const updatedItem = {
-        id: id,
-        laptop: laptop,
-        currentUser: currentUser,
-        previousUsers: previousUsers,
-        handle: handle,
-      };
-      updateItem(editingIndex, updatedItem);
-      setEditingIndex(null);
-    } else {
-      addItem({ id, laptop, currentUser, previousUsers, handle });
-      setreadItem(readItems());
-    }
+  const handleRef = () => {};
+
+  const handleAddData = () => {
+    const newData = { ...inputRef.current };
+    const updatedData = [...readItem, newData];
+    setreadItem(updatedData);
+    addItem(newData);
+    inputRef.current = {
+      id: "",
+      laptop: "",
+      currentUser: "",
+      previousUsers: "",
+      handle: "",
+    };
+  };
+
+  const handleInputChange = (event) => {
+    const { name, value } = event.target;
+    inputRef.current[name] = value;
   };
 
   const handleEditItem = (index) => {
-    const item = readItem[index];
-    if (editingIndex !== null) {
-      const updatedItem = {
-        id: id,
-        laptop: laptop,
-        currentUser: currentUser,
-        previousUsers: previousUsers,
-        handle: handle,
-      };
-      updateItem(editingIndex, updatedItem);
-    }
-    console.log(editingIndex);
-    setEditingIndex(index);
-    setId(item.id);
-    setLaptop(item.laptop);
-    setCurrentUser(item.currentUser);
-    setpreviousUsers(item.previousUsers);
-    sethandle(item.handle);
+    const updatedData = [...readItem];
+    updatedData[index] = { ...inputRef.current };
+    setreadItem(updatedData);
+    //  localStorage.setItem("data", JSON.stringify(updatedData));
   };
+
+  //   const handleEditItem = (index) => {
+  //     const item = readItem[index];
+  //     if (editingIndex !== null) {
+  //       const updatedItem = {
+  //         id: id,
+  //         laptop: laptop,
+  //         currentUser: currentUser,
+  //         previousUsers: previousUsers,
+  //         handle: handle,
+  //       };
+  //       updateItem(editingIndex, updatedItem);
+  //     }
+  //     console.log(editingIndex);
+  //     setEditingIndex(index);
+  //     setId(item.id);
+  //     setLaptop(item.laptop);
+  //     setCurrentUser(item.currentUser);
+  //     setpreviousUsers(item.previousUsers);
+  //     sethandle(item.handle);
+  //   };
   return (
     <>
       <div className="container">
         <h1>The Assets of The JavaScript Shop</h1>
         <div className="table-responsive">
-          <table className="table table-dark table-hover  ">
+          <table id="myTable" className="table table-dark table-hover  ">
             <thead>
               <tr>
                 <th scope="col">#</th>
@@ -95,54 +105,47 @@ const Dropdown = () => {
               ))}
               <tr>
                 <td>
-                  <form onSubmit={handleSave}>
-                    <input
-                      type="number"
-                      value={id}
-                      onChange={(e) => setId(e.target.value)}
-                    />
-                  </form>
+                  <input
+                    type="number"
+                    name="id"
+                    onChange={handleInputChange}
+                    // ref={(el) => (inputRef.current.id = el.target.value)}
+                  />
                 </td>
                 <td>
-                  <form onSubmit={handleSave}>
-                    <input
-                      type="text"
-                      value={laptop}
-                      onChange={(e) => setLaptop(e.target.value)}
-                    />
-                  </form>
+                  <input
+                    type="text"
+                    name="laptop"
+                    onChange={handleInputChange}
+                    // ref={(el) => (inputRef.current.laptop = el)}
+                  />
                 </td>
                 <td>
-                  <form onSubmit={handleSave}>
-                    <input
-                      type="text"
-                      value={currentUser}
-                      onChange={(e) => setCurrentUser(e.target.value)}
-                    />
-                  </form>
+                  <input
+                    type="text"
+                    name="currentUser"
+                    onChange={handleInputChange}
+                    // ref={(el) => (inputRef.current.currentUser = el)}
+                  />
                 </td>
                 <td>
-                  <form onSubmit={handleSave}>
-                    <input
-                      type="text"
-                      value={previousUsers}
-                      onChange={(e) => setpreviousUsers(e.target.value)}
-                    />
-                  </form>
+                  <input
+                    type="text"
+                    name="previousUsers"
+                    onChange={handleInputChange}
+                    // ref={(el) => (inputRef.current.previousUsers = el)}
+                  />
                 </td>
                 <td>
-                  <form onSubmit={handleSave}>
-                    <input
-                      type="text"
-                      value={handle}
-                      onChange={(e) => sethandle(e.target.value)}
-                    />
-                  </form>
+                  <input
+                    type="text"
+                    name="handle"
+                    onChange={handleInputChange}
+                    // ref={(el) => (inputRef.current.handle = el)}
+                  />
                 </td>
                 <td>
-                  <button type="submit">
-                    {editingIndex !== null ? "Save" : "Add"}
-                  </button>
+                  <button onClick={handleAddData}>Add</button>
                 </td>
               </tr>
             </tbody>

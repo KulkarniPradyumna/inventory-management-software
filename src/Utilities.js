@@ -56,7 +56,6 @@ const readItems = () => {
 const updateItem = (index, item) => {
   let items = JSON.parse(localStorage.getItem("dbKey"));
   items[index] = item;
-  console.log(item);
   localStorage.setItem("dbKey", JSON.stringify(items));
 };
 
