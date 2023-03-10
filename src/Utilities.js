@@ -1,50 +1,13 @@
-const initialDb = [
-  {
-    id: "1",
-    laptop: "Apple",
-    currentUser: "Pradyumna ",
-    previousUsers: "abc",
-    handle: "xyz@gmail.com",
-  },
-  {
-    id: "2",
-    laptop: "Lenovo",
-    currentUser: "Pradyumna ",
-    previousUsers: "abc, xyz",
-    handle: "xyz@gmail.com",
-  },
-  {
-    id: "3",
-    laptop: "Dell",
-    currentUser: "Pradyumna ",
-    previousUsers: "abc, xyz",
-    handle: "xyz@gmail.com",
-  },
-  {
-    id: "4",
-    laptop: "HP",
-    currentUser: "Pradyumna",
-    previousUsers: "abc, xyz",
-    handle: "xyz@gmail.com",
-  },
-  {
-    id: "5",
-    laptop: "HP",
-    currentUser: "Pradyumna",
-    previousUsers: "abc, xyz",
-    handle: "xyz@gmail.com",
-  },
-];
+const initialDb = [];
 
 const settingInitialDb = () => {
-  let initalDbString = JSON.stringify(initialDb);
-  localStorage.setItem("dbKey", initalDbString);
+  // let initalDbString = JSON.stringify(initialDb);
+  // localStorage.setItem("dbKey", initalDbString);
 };
 
 const addItem = (item) => {
   let items = JSON.parse(localStorage.getItem("dbKey"));
   items.push(item);
-  console.log(items);
   localStorage.setItem("dbKey", JSON.stringify(items));
 };
 
@@ -64,5 +27,17 @@ const deleteItem = (index) => {
   items.splice(index, 1);
   localStorage.setItem("dbKey", JSON.stringify(items));
 };
+const generateId = (productNmae, slNo) => {
+  const pcode = productNmae.slice(0, 3);
+  const productId = slNo + pcode + new Date().getDate();
+  return productId;
+};
 
-export { addItem, readItems, updateItem, deleteItem, settingInitialDb };
+export {
+  addItem,
+  readItems,
+  updateItem,
+  deleteItem,
+  settingInitialDb,
+  generateId,
+};

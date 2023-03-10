@@ -1,55 +1,75 @@
-// import React, { useState } from "react";
-// import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
-// import Home from "./Home";
+import React, { useState } from "react";
+const Login = (props) => {
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
 
-// const Login = () => {
-//   const [username, setUsername] = useState("");
-//   const [password, setPassword] = useState("");
-//   const [loggedIn, setLoggedIn] = useState(false);
-//   const handleLogin = (e) => {
-//     // handle login logic here
-//     e.preventDefault(); // Prevent form submission
-//     // Authenticate user
-//     if (username === "myusername" && password === "mypassword") {
-//       setLoggedIn(true);
-//     }
-//   };
+  const handleUsernameChange = (e) => {
+    setUsername(e.target.value);
+  };
+  const handleUPasswordChange = (e) => {
+    setPassword(e.target.value);
+  };
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    console.log();
+    if (username === "adminefwf" && password === "password") {
+      props.setIsAuthenticated(true);
+    } else {
+      alert("Invalid credentials");
+    }
+  };
+  return (
+    <>
+      <div>Login</div>
+      <form>
+        <div className="mb-3">
+          <label htmlFor="exampleInputEmail1" className="form-label">
+            Username
+          </label>
+          <input
+            type="email"
+            className="form-control"
+            id="exampleInputEmail1"
+            aria-describedby="emailHelp"
+            onChange={(e) => handleUsernameChange(e)}
+            value={username}
+          />
+          {/* <div id="emailHelp" className="form-text">
+            We'll never share your email with anyone else.
+          </div> */}
+        </div>
+        <div className="mb-3">
+          <label htmlFor="exampleInputPassword1" className="form-label">
+            Password
+          </label>
+          <input
+            type="password"
+            className="form-control"
+            id="exampleInputPassword1"
+            onChange={handleUPasswordChange}
+            value={password}
+          />
+        </div>
+        <div className="mb-3 form-check">
+          <input
+            type="checkbox"
+            className="form-check-input"
+            id="exampleCheck1"
+          />
+          <label className="form-check-label" htmlFor="exampleCheck1">
+            Check me out
+          </label>
+        </div>
+        <button
+          type="submit"
+          className="btn btn-primary"
+          onClick={handleSubmit}
+        >
+          Submit
+        </button>
+      </form>
+    </>
+  );
+};
 
-//   if (loggedIn) {
-//     return (
-//       <Routes>
-//         <Route render={() => <Navigate to="/home" />} />
-//       </Routes>
-//     );
-//   }
-//   return (
-//     <>
-//       <div>
-//         <h2>Login</h2>
-//         <form onSubmit={handleLogin}>
-//           <label>
-//             Username:
-//             <input
-//               type="text"
-//               value={username}
-//               onChange={(e) => setUsername(e.target.value)}
-//             />
-//           </label>
-//           <br />
-//           <label>
-//             Password:
-//             <input
-//               type="password"
-//               value={password}
-//               onChange={(e) => setPassword(e.target.value)}
-//             />
-//           </label>
-//           <br />
-//           <button type="submit">Login</button>
-//         </form>
-//       </div>
-//     </>
-//   );
-// };
-
-// export default Login;
+export default Login;

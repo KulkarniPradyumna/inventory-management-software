@@ -1,14 +1,20 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import {
-  settingInitialDb,
   readItems,
   updateItem,
   deleteItem,
   addItem,
+  generateId,
 } from "../Utilities";
 
 const Dropdown = () => {
   const [readItem, setreadItem] = useState(readItems());
+  //const [isEditing, setIsEditing] = useState(false);
+  const [editIndex, setEditIndex] = useState(null);
+
+  useEffect(() => {
+    setreadItem(readItems());
+  }, [editIndex]);
 
   const inputRef = useRef({
     id: "",
@@ -18,20 +24,29 @@ const Dropdown = () => {
     handle: "",
   });
 
-  const handleRef = () => {};
-
   const handleAddData = () => {
-    const newData = { ...inputRef.current };
-    const updatedData = [...readItem, newData];
-    setreadItem(updatedData);
-    addItem(newData);
-    inputRef.current = {
-      id: "",
-      laptop: "",
-      currentUser: "",
-      previousUsers: "",
-      handle: "",
+    const newData = {
+      ...inputRef.current,
+      id: generateId(inputRef.current.laptop, readItem.length),
     };
+    const updatedData = [...readItem, newData];
+    if (editIndex === null) {
+      setreadItem(updatedData);
+      addItem(newData);
+    } else {
+      const editedItem = { ...readItem[editIndex], ...inputRef.current };
+      updatedData[editIndex] = editedItem;
+      setEditIndex(null);
+      updateItem(editIndex, inputRef.current);
+    }
+    // inputRef.current = {
+    //   id: "",
+    //   laptop: "",
+    //   currentUser: "",
+    //   previousUsers: "",
+    //   handle: "",
+    // };
+    console.log(inputRef.current);
   };
 
   const handleInputChange = (event) => {
@@ -40,32 +55,12 @@ const Dropdown = () => {
   };
 
   const handleEditItem = (index) => {
-    const updatedData = [...readItem];
-    updatedData[index] = { ...inputRef.current };
-    setreadItem(updatedData);
-    //  localStorage.setItem("data", JSON.stringify(updatedData));
+    const selectedRow = readItem[index];
+    inputRef.current = { ...selectedRow };
+    //setIsEditing(true);
+    setEditIndex(index);
   };
 
-  //   const handleEditItem = (index) => {
-  //     const item = readItem[index];
-  //     if (editingIndex !== null) {
-  //       const updatedItem = {
-  //         id: id,
-  //         laptop: laptop,
-  //         currentUser: currentUser,
-  //         previousUsers: previousUsers,
-  //         handle: handle,
-  //       };
-  //       updateItem(editingIndex, updatedItem);
-  //     }
-  //     console.log(editingIndex);
-  //     setEditingIndex(index);
-  //     setId(item.id);
-  //     setLaptop(item.laptop);
-  //     setCurrentUser(item.currentUser);
-  //     setpreviousUsers(item.previousUsers);
-  //     sethandle(item.handle);
-  //   };
   return (
     <>
       <div className="container">
@@ -104,20 +99,13 @@ const Dropdown = () => {
                 </tr>
               ))}
               <tr>
-                <td>
-                  <input
-                    type="number"
-                    name="id"
-                    onChange={handleInputChange}
-                    // ref={(el) => (inputRef.current.id = el.target.value)}
-                  />
-                </td>
+                <td></td>
                 <td>
                   <input
                     type="text"
                     name="laptop"
                     onChange={handleInputChange}
-                    // ref={(el) => (inputRef.current.laptop = el)}
+                    defaultValue={""}
                   />
                 </td>
                 <td>
@@ -125,7 +113,7 @@ const Dropdown = () => {
                     type="text"
                     name="currentUser"
                     onChange={handleInputChange}
-                    // ref={(el) => (inputRef.current.currentUser = el)}
+                    defaultValue={inputRef.current.currentUser}
                   />
                 </td>
                 <td>
@@ -133,7 +121,7 @@ const Dropdown = () => {
                     type="text"
                     name="previousUsers"
                     onChange={handleInputChange}
-                    // ref={(el) => (inputRef.current.previousUsers = el)}
+                    defaultValue={inputRef.current.previousUsers}
                   />
                 </td>
                 <td>
@@ -141,7 +129,7 @@ const Dropdown = () => {
                     type="text"
                     name="handle"
                     onChange={handleInputChange}
-                    // ref={(el) => (inputRef.current.handle = el)}
+                    defaultValue={inputRef.current.handle}
                   />
                 </td>
                 <td>
