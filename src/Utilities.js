@@ -6,25 +6,25 @@ const settingInitialDb = () => {
 };
 
 const addItem = (item) => {
-  let items = JSON.parse(localStorage.getItem("dbKey"));
+  let items = JSON.parse(localStorage.getItem("dbKey")) || [];
   items.push(item);
   localStorage.setItem("dbKey", JSON.stringify(items));
 };
 
 const readItems = () => {
   const items = JSON.parse(localStorage.getItem("dbKey"));
-  return items;
+  return items || [];
 };
 
-const updateItem = (index, item) => {
+const updateItem = (id, item) => {
   let items = JSON.parse(localStorage.getItem("dbKey"));
-  items[index] = item;
+  items[id] = item;
   localStorage.setItem("dbKey", JSON.stringify(items));
 };
 
-const deleteItem = (index) => {
+const deleteItem = (id) => {
   let items = JSON.parse(localStorage.getItem("dbKey"));
-  items.splice(index, 1);
+  items.splice(id, 1);
   localStorage.setItem("dbKey", JSON.stringify(items));
 };
 const generateId = (productNmae, slNo) => {

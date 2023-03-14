@@ -9,35 +9,45 @@ import {
 
 const Dropdown = () => {
   const [readItem, setreadItem] = useState(readItems());
-  //const [isEditing, setIsEditing] = useState(false);
+  const [isEditing, setIsEditing] = useState(false);
   const [editIndex, setEditIndex] = useState(null);
+
+  const idRef = useRef();
+  const laptopRef = useRef();
+  const currentUserRef = useRef();
+  const previousUsersRef = useRef();
+  const handleRef = useRef();
 
   useEffect(() => {
     setreadItem(readItems());
-  }, [editIndex]);
+  }, [editIndex, isEditing]);
 
-  const inputRef = useRef({
-    id: "",
-    laptop: "",
-    currentUser: "",
-    previousUsers: "",
-    handle: "",
-  });
+  // const inputRef = useRef({
+  //   id: "",
+  //   laptop: "",
+  //   currentUser: "",
+  //   previousUsers: "",
+  //   handle: "",
+  // });
 
   const handleAddData = () => {
+    console.log(laptopRef.current);
     const newData = {
-      ...inputRef.current,
-      id: generateId(inputRef.current.laptop, readItem.length),
+      laptop: laptopRef.current.value,
+      currentUser: currentUserRef.current.value,
+      previousUsers: previousUsersRef.current.value,
+      handle: handleRef.current.value,
+      id: generateId(laptopRef.current.value, readItem.length),
     };
     const updatedData = [...readItem, newData];
     if (editIndex === null) {
       setreadItem(updatedData);
       addItem(newData);
     } else {
-      const editedItem = { ...readItem[editIndex], ...inputRef.current };
+      const editedItem = { ...readItem[editIndex], newData };
       updatedData[editIndex] = editedItem;
       setEditIndex(null);
-      updateItem(editIndex, inputRef.current);
+      updateItem(editIndex, newData);
     }
     // inputRef.current = {
     //   id: "",
@@ -46,18 +56,26 @@ const Dropdown = () => {
     //   previousUsers: "",
     //   handle: "",
     // };
-    console.log(inputRef.current);
+    laptopRef.current.value = "";
+    currentUserRef.current.value = "";
+    previousUsersRef.current.value = "";
+    handleRef.current.value = "";
   };
 
-  const handleInputChange = (event) => {
-    const { name, value } = event.target;
-    inputRef.current[name] = value;
-  };
+  // const handleInputChange = (event) => {
+  //   const { name, value } = event.target;
+  //   inputRef.current[name] = value;
+  // };
 
   const handleEditItem = (index) => {
     const selectedRow = readItem[index];
-    inputRef.current = { ...selectedRow };
-    //setIsEditing(true);
+    const { id, laptop, currentUser, previousUsers, handle } = selectedRow;
+    console.log(selectedRow, laptop);
+    laptopRef.current.value = laptop;
+    currentUserRef.current.value = currentUser;
+    previousUsersRef.current.value = previousUsers;
+    handleRef.current.value = handle;
+    setIsEditing(true);
     setEditIndex(index);
   };
 
@@ -78,7 +96,7 @@ const Dropdown = () => {
               </tr>
             </thead>
             <tbody>
-              {readItem.map((laptop, index) => (
+              {readItem.map((laptop, id) => (
                 <tr key={laptop.id}>
                   <td>{laptop.id}</td>
                   <td>{laptop.laptop}</td>
@@ -88,48 +106,54 @@ const Dropdown = () => {
                   <td>
                     <button
                       onClick={() => {
-                        deleteItem(index);
+                        deleteItem(id);
                         setreadItem(readItems());
                       }}
                     >
                       Delete
                     </button>
-                    <button onClick={() => handleEditItem(index)}>Edit</button>
+                    <button onClick={() => handleEditItem(id)}>Edit</button>
                   </td>
                 </tr>
               ))}
               <tr>
                 <td></td>
+
                 <td>
                   <input
                     type="text"
                     name="laptop"
-                    onChange={handleInputChange}
-                    defaultValue={""}
+                    ref={laptopRef}
+
+                    // onChange={handleInputChange}
+                    // value={inputRef.current.laptop}
                   />
                 </td>
                 <td>
                   <input
                     type="text"
                     name="currentUser"
-                    onChange={handleInputChange}
-                    defaultValue={inputRef.current.currentUser}
+                    ref={currentUserRef}
+                    //defaultValue={currentUserRef.current}
+                    // onChange={handleInputChange}
                   />
                 </td>
                 <td>
                   <input
                     type="text"
                     name="previousUsers"
-                    onChange={handleInputChange}
-                    defaultValue={inputRef.current.previousUsers}
+                    ref={previousUsersRef}
+                    // onChange={handleInputChange}
+                    // defaultValue={inputRef.current.previousUsers}
                   />
                 </td>
                 <td>
                   <input
                     type="text"
                     name="handle"
-                    onChange={handleInputChange}
-                    defaultValue={inputRef.current.handle}
+                    ref={handleRef}
+                    // onChange={handleInputChange}
+                    // defaultValue={inputRef.current.handle}
                   />
                 </td>
                 <td>
