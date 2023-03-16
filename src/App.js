@@ -1,11 +1,11 @@
 import React, { useState } from "react";
-// import logo from "./logo.svg";
 import "./App.css";
 import Header from "./Header";
 import Assets from "./Header/Assets";
 import Home from "./Header/Home";
 import Employees from "./Header/Employees";
 import Login from "./Header/Login";
+import EmployeeAssets from "./Header/EmployeeAssets";
 import { settingInitialDb } from "./Utilities";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 
@@ -22,6 +22,7 @@ function App() {
             <Route path="/" element={<Home />} />
             <Route path="/assets" element={<Assets />} />
             <Route path="/employees" element={<Employees />} />
+            <Route path="/empAssets" element={<EmployeeAssets />} />
             <Route path="*" element={""} />
           </>
         ) : (
