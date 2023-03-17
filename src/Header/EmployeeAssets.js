@@ -3,7 +3,9 @@ import React, { useState, useEffect } from "react";
 const EmployeeAssets = () => {
   const [employees, setEmployees] = useState([]);
   const [assets, setAssets] = useState([]);
-  const [matchedData, setMatchedData] = useState([]);
+  // const [pair, setPair] = useState({ name: "", asset: "" });
+  const [selectedAsset, setSelectedAsset] = useState("");
+  const [selectedEmployee, setSelectedEmployee] = useState("");
 
   useEffect(() => {
     const employeesFromStorage = JSON.parse(
@@ -15,27 +17,53 @@ const EmployeeAssets = () => {
     setAssets(assetsFromStorage);
   }, []);
 
-  useEffect(() => {
-    const matched = employees
-      .map((emp) => {
-        const asset = assets.find((a) => a.currentUser === emp.name);
-        if (asset) {
-          return {
-            employee_name: emp.name,
-            asset_name: asset.laptop,
-          };
-        } else {
-          return null;
-        }
-      })
-      .filter((x) => x !== null);
+  const handleEmployeeChange = (e) => {
+    setSelectedEmployee(e.target.value);
+    console.log(e.target.value);
+  };
 
-    setMatchedData(matched);
-  }, [employees, assets]);
+  function handleAssetChange(event) {
+    setSelectedAsset(event.target.value);
+  }
+
+  const handleAdd = () => {};
 
   return (
     <div className="container">
-      <h1>Employee-Asset Matching</h1>
+      <div>
+        <h3>Select an Asset</h3>
+        <select
+          className="form-select form-select-lg mb-3"
+          aria-label=".form-select-lg example"
+          value={selectedAsset}
+          onChange={handleAssetChange}
+        >
+          <option value="">-- Select an option --</option>
+          {assets.map((laptop, id) => (
+            <option key={laptop.id} value={laptop.laptop}>
+              {laptop.laptop}
+            </option>
+          ))}
+        </select>
+      </div>
+      <div>
+        <h3>Select an Employee</h3>
+        <select
+          className="form-select form-select-lg mb-3"
+          aria-label=".form-select-lg example"
+          value={selectedEmployee}
+          onChange={handleEmployeeChange}
+        >
+          <option value="">-- Select an option --</option>
+          {employees.map((employee) => (
+            <option key={employee.id} value={employee.name}>
+              {employee.name}
+            </option>
+          ))}
+        </select>
+        <button onClick={handleAdd}>Add</button>
+      </div>
+      <h3>Employee-Asset Matching</h3>
       <div className="table-responsive">
         <table className="table table-dark table-hover  ">
           <thead>
@@ -52,45 +80,13 @@ const EmployeeAssets = () => {
             </tr>
           </thead>
           <tbody>
-            {matchedData.map((data, index) => (
-              <tr key={index}>
-                <td className="text-center">{index + 1}</td>
-                <td className="text-center">{data.employee_name}</td>
-                <td className="text-center"> {data.asset_name}</td>
-              </tr>
-            ))}
+            <tr>
+              <td className="text-center"></td>
+              <td className="text-center"></td>
+              <td className="text-center"></td>
+            </tr>
           </tbody>
         </table>
-      </div>
-      <div>
-        <h3>Add a Row</h3>
-        <div class="dropdown">
-          <button
-            class="btn btn-secondary dropdown-toggle"
-            type="button"
-            data-bs-toggle="dropdown"
-            aria-expanded="false"
-          >
-            Dropdown button
-          </button>
-          <ul class="dropdown-menu">
-            <li>
-              <a class="dropdown-item" href="#">
-                Action
-              </a>
-            </li>
-            <li>
-              <a class="dropdown-item" href="#">
-                Another action
-              </a>
-            </li>
-            <li>
-              <a class="dropdown-item" href="#">
-                Something else here
-              </a>
-            </li>
-          </ul>
-        </div>
       </div>
     </div>
   );

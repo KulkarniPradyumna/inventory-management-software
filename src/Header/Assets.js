@@ -80,7 +80,7 @@ const Assets = () => {
                   ID
                 </th>
                 <th className="text-center" scope="col">
-                  Laptop{" "}
+                  Assets
                 </th>
                 {/* <th className="text-center" scope="col">
                   Current User
