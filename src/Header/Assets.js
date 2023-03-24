@@ -13,9 +13,6 @@ const Assets = () => {
   const [editIndex, setEditIndex] = useState(null);
 
   const laptopRef = useRef();
-  // const currentUserRef = useRef();
-  // const previousUsersRef = useRef();
-  // const handleRef = useRef();
 
   useEffect(() => {
     setreadItem(readItems());
@@ -25,11 +22,7 @@ const Assets = () => {
     const newData = {
       id: generateId(laptopRef.current.value, readItem.length),
       laptop: laptopRef.current.value,
-      // currentUser: currentUserRef.current.value,
-      // previousUsers: previousUsersRef.current.value,
-      // handle: handleRef.current.value,
     };
-
     if (newData.laptop) {
       const updatedData = [...readItem, newData];
       if (editIndex === null) {
@@ -39,9 +32,6 @@ const Assets = () => {
         const editedData = {
           id: readItem[editIndex].id,
           laptop: laptopRef.current.value,
-          // currentUser: currentUserRef.current.value,
-          // previousUsers: previousUsersRef.current.value,
-          // handle: handleRef.current.value,
         };
         const editedItem = { ...readItem[editIndex], editedData };
         updatedData[editIndex] = editedItem;
@@ -49,9 +39,6 @@ const Assets = () => {
         updateItem(editIndex, editedData);
       }
       laptopRef.current.value = "";
-      // currentUserRef.current.value = "";
-      // previousUsersRef.current.value = "";
-      // handleRef.current.value = "";
     } else {
       alert("Enter the data");
     }
@@ -61,9 +48,6 @@ const Assets = () => {
     const selectedRow = readItem[id];
     const { laptop, currentUser, previousUsers, handle } = selectedRow;
     laptopRef.current.value = laptop;
-    // currentUserRef.current.value = currentUser;
-    // previousUsersRef.current.value = previousUsers;
-    // handleRef.current.value = handle;
     setIsEditing(true);
     setEditIndex(id);
   };
@@ -82,15 +66,6 @@ const Assets = () => {
                 <th className="text-center" scope="col">
                   Assets
                 </th>
-                {/* <th className="text-center" scope="col">
-                  Current User
-                </th>
-                <th className="text-center" scope="col">
-                  Previous Users
-                </th>
-                <th className="text-center" scope="col">
-                  Handle
-                </th> */}
                 <th className="text-center" scope="col"></th>
               </tr>
             </thead>
@@ -99,9 +74,6 @@ const Assets = () => {
                 <tr key={laptop.id}>
                   <td className="text-center">{laptop.id}</td>
                   <td className="text-center">{laptop.laptop}</td>
-                  {/* <td className="text-center">{laptop.currentUser}</td>
-                  <td className="text-center">{laptop.previousUsers}</td>
-                  <td className="text-center">{laptop.handle}</td> */}
                   <td className="text-center">
                     <button
                       onClick={() => {
@@ -121,19 +93,6 @@ const Assets = () => {
                 <td className="text-center">
                   <input type="text" name="laptop" ref={laptopRef} />
                 </td>
-                {/* <td className="text-center">
-                  <input type="text" name="currentUser" ref={currentUserRef} />
-                </td>
-                <td className="text-center">
-                  <input
-                    type="text"
-                    name="previousUsers"
-                    ref={previousUsersRef}
-                  />
-                </td>
-                <td className="text-center">
-                  <input type="text" name="handle" ref={handleRef} />
-                </td> */}
                 <td className="text-center">
                   <button onClick={handleAddData}>Add</button>
                 </td>

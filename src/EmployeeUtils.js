@@ -1,7 +1,7 @@
-const initialDb = [];
+const initialDbEmp = [];
 
 const settingInitialDbEmp = () => {
-  let initalDbString = JSON.stringify(initialDb);
+  let initalDbString = JSON.stringify(initialDbEmp);
   localStorage.setItem("empkey", initalDbString);
 };
 
