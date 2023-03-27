@@ -27,9 +27,9 @@ const deleteItem = (id) => {
   items.splice(id, 1);
   localStorage.setItem("dbKey", JSON.stringify(items));
 };
-const generateId = (productNmae, slNo) => {
+const generateId = (productNmae, index) => {
   const pcode = productNmae.slice(0, 3);
-  const productId = slNo + pcode + new Date().getDate();
+  const productId = index + pcode + new Date().getDate();
   return productId;
 };
 

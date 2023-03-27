@@ -7,10 +7,8 @@ import Employees from "./Header/Employees";
 import Login from "./Header/Login";
 import EmployeeAssets from "./Header/EmployeeAssets";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-import { settingInitialDbEmp } from "./EmployeeUtils";
 
 function App() {
-  // settingInitialDbEmp();
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const assetLinks = localStorage.getItem("assetLinks");
   if (!assetLinks) {
@@ -21,7 +19,7 @@ function App() {
     <Router>
       <Header />
       <Routes>
-        <Route path="/" element={<Home />} />
+        <Route path="/home" element={<Home />} />
         <Route path="/assets" element={<Assets />} />
         <Route path="/employees" element={<Employees />} />
         <Route path="/empAssets" element={<EmployeeAssets />} />

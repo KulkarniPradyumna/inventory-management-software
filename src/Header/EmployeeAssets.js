@@ -30,17 +30,6 @@ const EmployeeAssets = () => {
     Object.keys(links).forEach((employeeId) => {
       const linkIds = links[employeeId];
       const employeeDetails = employees.find((x) => x.id === employeeId);
-
-      // const assignedEmployee = Object.keys(links).find((employee) =>
-      //   links[employee].includes(selectedAsset)
-      // );
-      // if (assignedEmployee) {
-      //   alert(
-      //     `Asset ${selectedAsset} is already assigned to Employee ${assignedEmployee}`
-      //   );
-      //   return;
-      // }
-
       if (!employeeDetails) return;
       linkIds.forEach((linkId) => {
         const assetDetails = assets.find((y) => y.id === linkId);
@@ -56,66 +45,71 @@ const EmployeeAssets = () => {
     return linkDetails;
   };
 
-  const getLinksv2 = () => {
-    const links = JSON.parse(localStorage.getItem("assetLinks"));
-    const linkDetails = [];
-    Object.keys(links).forEach((employeeId) => {
-      const linkIds = links[employeeId];
-      const employeeDetails = employees.find((x) => x.id === employeeId);
+  // const getLinksv2 = () => {
+  //   const links = JSON.parse(localStorage.getItem("assetLinks"));
+  //   const linkDetails = [];
+  //   Object.keys(links).forEach((employeeId) => {
+  //     const linkIds = links[employeeId];
+  //     const employeeDetails = employees.find((x) => x.id === employeeId);
+  //     const assignedEmployee = Object.keys(links).find((employee) =>
+  //       links[employee].includes(selectedAsset)
+  //     );
+  //     if (!employeeDetails) return;
+  //     const objToPush = {
+  //       employeeId: employeeDetails.id,
+  //       employeeName: employeeDetails.name,
+  //       assets: [],
+  //     };
+  //     linkIds.forEach((linkId) => {
+  //       objToPush.assets.push({
+  //         asset: assets.find((y) => y.id === linkId)?.laptop,
+  //         assetId: assets.find((y) => y.id === linkId)?.id,
+  //       });
+  //       if (linkId === selectedAsset) {
+  //         assignedEmployee = employeeDetails.name;
+  //       }
+  //     });
+  //     linkDetails.push(objToPush);
+  //   });
+  //   return linkDetails;
+  // };
 
-      const assignedEmployee = Object.keys(links).find((employee) =>
-        links[employee].includes(selectedAsset)
-      );
-      if (assignedEmployee) {
-        console.log("Asset already assigned to employee");
-        alert(
-          `Asset ${selectedAsset} is already assigned to Employee ${assignedEmployee}`
-        );
-        return;
-      }
-      if (!employeeDetails) return;
-      const objToPush = {
-        employeeId: employeeDetails.id,
-        employeeName: employeeDetails.name,
-        assets: [],
-      };
-      linkIds.forEach((linkId) => {
-        objToPush.assets.push({
-          asset: assets.find((y) => y.id === linkId)?.laptop,
-          assetId: assets.find((y) => y.id === linkId)?.id,
-        });
-      });
-      linkDetails.push(objToPush);
-    });
-    return linkDetails;
-  };
-
-  const [rows, setRows] = useState(getLinksv2());
+  const [rows, setRows] = useState(getLinks());
 
   useEffect(() => {
     if (employees.length > 0 && assets.length > 0) {
-      const links = getLinksv2();
+      const links = getLinks();
       setRows(links);
     }
   }, [employees, assets]);
 
   const addLink = (empId, assetId) => {
     let items = JSON.parse(localStorage.getItem("assetLinks"));
+    let assetAssigned = false;
+    let oldEmployeeId = "";
 
+    Object.keys(items).forEach((eId) => {
+      if (items[eId].includes(selectedAsset)) {
+        assetAssigned = true;
+        oldEmployeeId = eId;
+      }
+    });
+    if (assetAssigned) {
+      const message = `Asset ${selectedAsset} is already assigned to Employee ${oldEmployeeId}. Do you want to reassign the asset to this employee?`;
+      const result = window.confirm(message);
+      if (result) {
+        items[oldEmployeeId].splice(assetId, 1);
+        localStorage.setItem("assetLinks", JSON.stringify(items));
+      } else {
+        return;
+      }
+    }
     if (items.hasOwnProperty(empId)) {
       items[empId].push(assetId);
     } else {
       items[empId] = [assetId];
     }
-    // const assignedEmployee = Object.keys(items).find((employee) =>
-    //   items[employee].includes(selectedAsset)
-    // );
-    // if (assignedEmployee) {
-    //   alert(
-    //     `Asset ${selectedAsset} is already assigned to Employee ${assignedEmployee}`
-    //   );
-    //   return;
-    // }
+
     localStorage.setItem("assetLinks", JSON.stringify(items));
     setRows(getLinks());
   };
@@ -190,7 +184,8 @@ const EmployeeAssets = () => {
                 <td className="text-center">{index + 1}</td>
                 <td className="text-center">{row.employeeName}</td>
                 <td className="text-center">
-                  {row.assets?.map((x) => x.asset).join(",")}
+                  {/* {row.assets?.map((x) => x.asset).join(",")} */}
+                  {row.asset}
                 </td>
                 <td className="text-center">
                   <button
