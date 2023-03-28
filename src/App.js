@@ -7,13 +7,11 @@ import Employees from "./Header/Employees";
 import Login from "./Header/Login";
 import EmployeeAssets from "./Header/EmployeeAssets";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import { addLinks } from "./EmployeeAssetUtils";
 
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const assetLinks = localStorage.getItem("assetLinks");
-  if (!assetLinks) {
-    localStorage.setItem("assetLinks", JSON.stringify({}));
-  }
+  addLinks();
   return (
     <Router>
       <Header />

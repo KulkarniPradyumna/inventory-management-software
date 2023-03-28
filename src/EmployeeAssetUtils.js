@@ -15,13 +15,21 @@ const setItems = (items) => {
 
 const employeesFromStorage = () =>
   JSON.parse(localStorage.getItem("empkey") || "[]");
+
 const assetsFromStorage = () =>
   JSON.parse(localStorage.getItem("dbKey") || "[]");
 
+const addLinks = () => {
+  const assetLinks = localStorage.getItem("assetLinks");
+  if (!assetLinks) {
+    localStorage.setItem("assetLinks", JSON.stringify({}));
+  }
+};
 export {
   deleteItem,
   readItems,
   setItems,
   employeesFromStorage,
   assetsFromStorage,
+  addLinks,
 };
