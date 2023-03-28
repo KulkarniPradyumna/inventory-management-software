@@ -12,19 +12,13 @@ function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const assetLinks = localStorage.getItem("assetLinks");
   if (!assetLinks) {
-    console.log("creating empty asset links");
     localStorage.setItem("assetLinks", JSON.stringify({}));
   }
   return (
     <Router>
       <Header />
       <Routes>
-        <Route path="/home" element={<Home />} />
-        <Route path="/assets" element={<Assets />} />
-        <Route path="/employees" element={<Employees />} />
-        <Route path="/empAssets" element={<EmployeeAssets />} />
-        <Route path="*" element={""} />
-        {/* {isAuthenticated ? (
+        {isAuthenticated ? (
           <>
             <Route path="/" element={<Home />} />
             <Route path="/assets" element={<Assets />} />
@@ -39,7 +33,7 @@ function App() {
               element={<Login setIsAuthenticated={setIsAuthenticated} />}
             />
           </>
-        )} */}
+        )}
       </Routes>
     </Router>
   );

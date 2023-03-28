@@ -1,4 +1,11 @@
 import React, { useState, useEffect } from "react";
+import {
+  deleteItem,
+  readItems,
+  setItems,
+  employeesFromStorage,
+  assetsFromStorage,
+} from "../EmployeeAssetUtils";
 
 const EmployeeAssets = () => {
   const [employees, setEmployees] = useState([]);
@@ -7,13 +14,8 @@ const EmployeeAssets = () => {
   const [selectedEmployee, setSelectedEmployee] = useState("");
 
   useEffect(() => {
-    const employeesFromStorage = JSON.parse(
-      localStorage.getItem("empkey") || "[]"
-    );
-    setEmployees(employeesFromStorage);
-
-    const assetsFromStorage = JSON.parse(localStorage.getItem("dbKey") || "[]");
-    setAssets(assetsFromStorage);
+    setEmployees(employeesFromStorage());
+    setAssets(assetsFromStorage());
   }, []);
 
   const handleEmployeeChange = (e) => {
@@ -25,7 +27,7 @@ const EmployeeAssets = () => {
   }
 
   const getLinks = () => {
-    const links = JSON.parse(localStorage.getItem("assetLinks"));
+    const links = readItems();
     const linkDetails = [];
     Object.keys(links).forEach((employeeId) => {
       const linkIds = links[employeeId];
@@ -45,35 +47,6 @@ const EmployeeAssets = () => {
     return linkDetails;
   };
 
-  // const getLinksv2 = () => {
-  //   const links = JSON.parse(localStorage.getItem("assetLinks"));
-  //   const linkDetails = [];
-  //   Object.keys(links).forEach((employeeId) => {
-  //     const linkIds = links[employeeId];
-  //     const employeeDetails = employees.find((x) => x.id === employeeId);
-  //     const assignedEmployee = Object.keys(links).find((employee) =>
-  //       links[employee].includes(selectedAsset)
-  //     );
-  //     if (!employeeDetails) return;
-  //     const objToPush = {
-  //       employeeId: employeeDetails.id,
-  //       employeeName: employeeDetails.name,
-  //       assets: [],
-  //     };
-  //     linkIds.forEach((linkId) => {
-  //       objToPush.assets.push({
-  //         asset: assets.find((y) => y.id === linkId)?.laptop,
-  //         assetId: assets.find((y) => y.id === linkId)?.id,
-  //       });
-  //       if (linkId === selectedAsset) {
-  //         assignedEmployee = employeeDetails.name;
-  //       }
-  //     });
-  //     linkDetails.push(objToPush);
-  //   });
-  //   return linkDetails;
-  // };
-
   const [rows, setRows] = useState(getLinks());
 
   useEffect(() => {
@@ -84,7 +57,7 @@ const EmployeeAssets = () => {
   }, [employees, assets]);
 
   const addLink = (empId, assetId) => {
-    let items = JSON.parse(localStorage.getItem("assetLinks"));
+    let items = readItems();
     let assetAssigned = false;
     let oldEmployeeId = "";
 
@@ -99,7 +72,7 @@ const EmployeeAssets = () => {
       const result = window.confirm(message);
       if (result) {
         items[oldEmployeeId].splice(assetId, 1);
-        localStorage.setItem("assetLinks", JSON.stringify(items));
+        setItems(items);
       } else {
         return;
       }
@@ -110,19 +83,12 @@ const EmployeeAssets = () => {
       items[empId] = [assetId];
     }
 
-    localStorage.setItem("assetLinks", JSON.stringify(items));
+    setItems(items);
     setRows(getLinks());
   };
 
   const handleAdd = () => {
     addLink(selectedEmployee, selectedAsset);
-  };
-
-  const handleDelete = (empId, assetId) => {
-    let items = JSON.parse(localStorage.getItem("assetLinks"));
-    items[empId] = items[empId].filter((item) => item !== assetId);
-    localStorage.setItem("assetLinks", JSON.stringify(items));
-    setRows(getLinks());
   };
 
   return (
@@ -183,13 +149,13 @@ const EmployeeAssets = () => {
               <tr key={index}>
                 <td className="text-center">{index + 1}</td>
                 <td className="text-center">{row.employeeName}</td>
-                <td className="text-center">
-                  {/* {row.assets?.map((x) => x.asset).join(",")} */}
-                  {row.asset}
-                </td>
+                <td className="text-center">{row.asset}</td>
                 <td className="text-center">
                   <button
-                    onClick={() => handleDelete(row.employeeId, row.assetId)}
+                    onClick={() => {
+                      deleteItem(row.employeeId, row.assetId);
+                      setRows(getLinks());
+                    }}
                   >
                     Delete
                   </button>
