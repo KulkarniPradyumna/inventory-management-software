@@ -74,9 +74,10 @@ code {
   width: 50%;
 }
 
-.table {
-  border-radius: 1rem;
+th {
+  text-align: center;
 }
+
 /* @media (max-width: 768px) {
   .textarea {
     width: 50%;
